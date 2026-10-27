@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Modelo principal recomendado para programacion compleja y matematicas
+  "model": "anthropic/claude-sonnet-4-5",
+  "default_agent": "plan",
+
+  // Configuracion de Servidores MCP
+  "mcp": {
+    "timeout": {
+      "startup": 45000,
+      "execution": 120000
+    },
+    "servers": {
+      // 1. Documentacion oficial al dia
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "oauth": false
+      },
+      // 2. Pruebas visuales del Canvas en navegador
+      "playwright": {
+        "type": "local",
+        "command": ["npx", "-y", "@playwright/mcp@latest"]
+      },
+      // 3. Memoria persistente de arquitectura
+      "memory": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-memory"]
+      },
+      // 4. Nuestro servidor MCP electronico personalizado
+      "spice-tester": {
+        "type": "local",
+        "command": ["uv", "run", "mcp-servers/spice-tester/server.py"],
+        "cwd": "."
+      }
+    }
+  },
+
+  // Reglas globales de seguridad para el agente Plan
+  "agent": {
+    "plan": {
+      "permission": {
+        "edit": "deny",
+        "bash": "ask"
+      }
+    }
+  }
+}
